@@ -12,8 +12,32 @@ code {
     monospace;
 }
 
-.wrapper {
-  padding-top: 5rem;
-  margin: 0 auto;
-  width: 500px;
+
+
+form {
+margin-left: 50px;
+}
+
+input {
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+li {
+  padding: 5px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+
+}
+
+li>span {
+  width: min-content;
+  padding: 5px 20px;
+  margin-bottom: 5px;
+  box-shadow:inset 0px 0px 14px 0px #1470e2ab;
+  border-radius: 10px;
 }
