@@ -3,23 +3,26 @@ import shortid from 'shortid';
 
 
 export default class TodoForm extends React.Component {
-    state = {
-        text: ''
+    constructor(props) {
+        super(props);
+        this.state = {text: ''}
     }
 
+  
+
     handleChange = (event) => {
-    this.setState({
-    [event.target.name]: event.target.value
-});
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     };
 
     handleSubmit = event => {
-
         event.preventDefault();
 
         this.props.onSubmit({
             id: shortid.generate(),
             text: this.state.text,
+            position: this.props.todos.length !== 0 ? this.props.todos.length + 1 : 1
         });
 
         this.setState({
