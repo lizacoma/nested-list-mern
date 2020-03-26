@@ -12,8 +12,6 @@ code {
     monospace;
 }
 
-
-
 form {
 margin-left: 50px;
 }
@@ -30,8 +28,6 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
-
 }
 
 li>span {

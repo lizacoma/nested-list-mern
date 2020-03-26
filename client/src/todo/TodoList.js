@@ -1,6 +1,8 @@
 import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
+// import { useHttp } from '../hooks/http.hook';
+
 
 
 export default class TodoList extends React.Component {
@@ -8,11 +10,18 @@ export default class TodoList extends React.Component {
         todos: []
     };
 
-    addTodo = (todo) => {
-        this.setState({
-            todos: [...this.state.todos, todo]
-        });
-    };
+    // addTodo =  async (todo) => {
+    //     // const {loading, error, request} = useHttp();
+    //     this.setState({
+    //         todos: [...this.state.todos, todo]
+    //     });
+    //     try {
+    //         const data = await request('/api/', 'POST', this.state.todos);
+    //         console.log('Done!')
+    //     } catch (error) {} 
+
+
+    // };
 
     deleteTodo = (id) => {
         this.setState({
@@ -54,6 +63,7 @@ export default class TodoList extends React.Component {
     }
 
     render() {
+        
         return (
             <div className = "wrapper">  
                 <ul>
