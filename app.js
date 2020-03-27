@@ -5,16 +5,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 5000;
 
-//
-//             const db = mongoose.connection;
-//                         mongoose.connection.on('error', err => {
-//                             logError(err);
-//                           });
-//                         db.once('open', () => {
-//                             console.log('we are connected');
-//                           });
-          
-
 async function start() {
         try {
             console.log("Connecting to mongodb...");
@@ -24,7 +14,7 @@ async function start() {
                     useCreateIndex: true
                     });
                 app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
-                app.use("/api", require("./routes/routes"));
+                app.use("/api", require("./routes"));
                 app.use(bodyParser.json());
             
             } catch (error) {

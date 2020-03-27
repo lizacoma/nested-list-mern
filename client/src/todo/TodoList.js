@@ -1,14 +1,23 @@
 import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
-// import { useHttp } from '../hooks/http.hook';
+import { connect } from 'react-redux';
+import { todosFetchData } from '../actions/todos'
 
 
 
-export default class TodoList extends React.Component {
+
+class TodoList extends React.Component {
     state = {
         todos: []
     };
+
+    componentDidMount() {
+        this.props.fetchData('/api/todos');
+      } 
+
+
+
 
     // addTodo =  async (todo) => {
     //     // const {loading, error, request} = useHttp();
@@ -67,9 +76,9 @@ export default class TodoList extends React.Component {
         return (
             <div className = "wrapper">  
                 <ul>
-                    {this.state.todos.map(todo => (
+                    {this.props.todos.map((todo, i) => (
                         <TodoItem 
-                            length = {this.state.todos.length}
+                            length = {this.props.todos.length}
                             pos = {todo.position}
                             key = {todo.id} 
                             text = {todo.text} 
@@ -77,10 +86,24 @@ export default class TodoList extends React.Component {
                             upTodo = {() => this.upElement(todo.id)} 
                             downTodo= {() => this.downElement(todo.id)}
                             />
-            ))}    
+                        ))}    
                 </ul>
-                <TodoForm onSubmit={this.addTodo} todos={this.state.todos}/>
+                <TodoForm onSubmit={this.addTodo} todos={this.props.todos}/>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => { //передача даних в store
+    return {
+        todos: state.todos
+    };
+  };
+  
+const mapDispatchToProps = dispatch => {
+    return {
+      fetchData: url => dispatch(todosFetchData(url)) // це функция, що на видповидь урл видправляэ нашу дату
+    };
+  };
+
+  export default connect(mapStateToProps,mapDispatchToProps) (TodoList);

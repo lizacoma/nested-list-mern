@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const TodoS  = require('../models/todo-schema')
+const TodoS  = require('./todo-schema')
 //прописуємо шляхи для кожного роута і ескпортуємо внизу під ім'ям router
 
 router.get('/todos', (req, res) => {
