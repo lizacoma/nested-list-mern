@@ -2,35 +2,23 @@ import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
 import { connect } from 'react-redux';
-import { todosFetchData } from '../actions/todos'
-
-
+import { todosFetchData } from '../actions/todos';
+import { todosPushDataAction } from '../actions/todos';
 
 
 class TodoList extends React.Component {
-    state = {
-        todos: []
-    };
-
     componentDidMount() {
         this.props.fetchData('/api/todos');
       } 
 
-
-
-
-    // addTodo =  async (todo) => {
-    //     // const {loading, error, request} = useHttp();
-    //     this.setState({
-    //         todos: [...this.state.todos, todo]
-    //     });
-    //     try {
-    //         const data = await request('/api/', 'POST', this.state.todos);
-    //         console.log('Done!')
-    //     } catch (error) {} 
-
-
-    // };
+    addTodo =  async (todo) => {
+        console.log('some');
+       console.log(' this.props.fetchData:', this.props.fetchData('/api/todos'));
+        // this.setState({
+        //     todos: [...this.state.todos, todo]
+        // });
+       
+    };
 
     deleteTodo = (id) => {
         this.setState({
@@ -71,16 +59,14 @@ class TodoList extends React.Component {
         });
     }
 
-    render() {
-        
+    render() { 
         return (
             <div className = "wrapper">  
-                <ul>
-                    {this.props.todos.map((todo, i) => (
+                <ul> {this.props.todos.map((todo, i) => (
                         <TodoItem 
                             length = {this.props.todos.length}
                             pos = {todo.position}
-                            key = {todo.id} 
+                            key = {i} 
                             text = {todo.text} 
                             onDelete= {() => this.deleteTodo(todo.id)} 
                             upTodo = {() => this.upElement(todo.id)} 
@@ -88,21 +74,27 @@ class TodoList extends React.Component {
                             />
                         ))}    
                 </ul>
-                <TodoForm onSubmit={this.addTodo} todos={this.props.todos}/>
+                
+                <TodoForm 
+                onSubmit={this.addTodo} 
+                // todos={this.props.todos}
+                />
+               
             </div>
         );
     }
 }
 
-const mapStateToProps = state => { //передача даних в store
+const mapStateToProps = state => { //отримання
     return {
-        todos: state.todos
+        todos: state.fetchTodosReducer
     };
   };
   
 const mapDispatchToProps = dispatch => {
     return {
-      fetchData: url => dispatch(todosFetchData(url)) // це функция, що на видповидь урл видправляэ нашу дату
+      fetchData: url => dispatch(todosFetchData(url)), // це функция, що на видповидь урл видправляэ нашу дату
+      pushData: (url, data) => dispatch(todosPushDataAction(url, data))
     };
   };
 
