@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const TodoSchema = new Schema({
-    text: String,
-    position: Number
+
+const TodoList = new Schema({
+
+    todoList: Schema.Types.Mixed
+    
 });
 
-const TodoS = mongoose.model('todo', TodoSchema);
+const TodoS = mongoose.model('todo', TodoList);
 
 module.exports = TodoS;

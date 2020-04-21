@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
-import { fetchTodosReducer, updateTodosReducer } from './todos.js';
+import { fetchTodosReducer, updateDataReducer, stateTodosReducer, postDataSuccess} from './todos.js';
 
 const rootReducer = combineReducers({
     fetchTodosReducer,
-    updateTodosReducer
+    stateTodosReducer,
+    updateDataReducer,
+    postDataSuccess
 });
 
 export default rootReducer;

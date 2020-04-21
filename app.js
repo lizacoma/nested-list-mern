@@ -8,15 +8,16 @@ const PORT = 5000;
 async function start() {
         try {
             console.log("Connecting to mongodb...");
-             await mongoose.connect('mongodb://localhost/todos-db', {
-                    useNewUrlParser: true,
-                    useUnifiedTopology: true,
-                    useCreateIndex: true
-                    });
-                app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
-                app.use("/api", require("./routes"));
+            await mongoose.connect('mongodb://localhost/todos-db', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true
+                });
+                // app.use(require('connect').bodyParser());
                 app.use(bodyParser.json());
-            
+                app.use("/api", require("./routes"));
+                
+                app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
             } catch (error) {
                 console.log('Server Error', error.message);
                 handleError(error);
