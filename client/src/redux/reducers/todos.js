@@ -1,3 +1,5 @@
+import {TODOS_FETCH_DATA_SUCCESS, ADD_NEW_TODOS, ADD_DATA, POST_DATA_SUCCESS, TODOS_WAS_UPDATED} from '../constants/types'
+
 const initialState = 
     {
         todoList: []
@@ -6,7 +8,7 @@ const initialState =
 
 export function fetchTodosReducer (state = [], action) {
     switch (action.type) {
-        case "TODOS_FETCH_DATA_SUCCESS":
+        case TODOS_FETCH_DATA_SUCCESS:
             return  action.todos
 
         default: 
@@ -17,10 +19,10 @@ export function fetchTodosReducer (state = [], action) {
 
 export function stateTodosReducer (state = initialState, action) { 
     switch (action.type) {
-        case "ADD_DATA": 
+        case ADD_DATA: 
             return action.data 
             
-        case "ADD_NEW_TODOS": 
+        case ADD_NEW_TODOS: 
             return  {
                 ...state,
                 todoList: [...action.todos]
@@ -33,7 +35,7 @@ export function stateTodosReducer (state = initialState, action) {
 
 export function postDataSuccess (state = {}, action) {
         switch (action.type) {
-            case "POST_DATA_SUCCESS": 
+            case POST_DATA_SUCCESS: 
             return action.data;
 
             default: 
@@ -43,7 +45,7 @@ export function postDataSuccess (state = {}, action) {
 
 export function updateDataReducer (state = false, action) {
     switch (action.type) {
-        case "TODOS_WAS_UPDATED": 
+        case TODOS_WAS_UPDATED: 
         return action.wasUpdated;
 
         default: 

@@ -17,19 +17,19 @@ class TodoForm extends React.Component {
     handleChange = (event) => {
         
         this.setState({  
-           
-                [event.target.name]: event.target.value
+            [event.target.name]: event.target.value
             
         });
     };
 
     handleSubmit = event => {
         event.preventDefault();
+        const {onSubmit, todos} = this.props;
 
-        this.props.onSubmit({ 
+        onSubmit({ 
             clientId: shortid.generate(),
             text: this.state.text,
-            position: this.props.todos.length !== 0 ? this.props.todos[this.props.todos.length-1].position + 1 : 1,
+            position: todos.length !== 0 ? todos[todos.length-1].position + 1 : 1,
             subList: []
 
         });
@@ -55,4 +55,4 @@ class TodoForm extends React.Component {
     }
 }
 
-  export default TodoForm;
+export default TodoForm;

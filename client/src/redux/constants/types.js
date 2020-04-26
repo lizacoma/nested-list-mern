@@ -1,0 +1,10 @@
+export const TODOS_FETCH_DATA_SUCCESS = "TODOS_FETCH_DATA_SUCCESS";
+
+export const ADD_NEW_TODOS = "ADD_NEW_TODOS";
+
+export const ADD_DATA = "ADD_DATA";
+
+export const POST_DATA_SUCCESS = "POST_DATA_SUCCESS";
+
+export const TODOS_WAS_UPDATED = "TODOS_WAS_UPDATED";
+

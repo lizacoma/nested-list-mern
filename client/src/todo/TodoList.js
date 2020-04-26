@@ -2,48 +2,52 @@ import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
 import { connect } from 'react-redux';
-import { todosFetchData, todosPushDataAction, addNewTodosArrAction, addDataFromDB, todosUpdated} from '../actions/todos';
+import { todosFetchData, todosPushDataAction, addNewTodosArrAction, addDataFromDB, todosUpdated} from '../redux/actions/todos';
 
 
 class TodoList extends React.Component {
 
     componentDidMount () {
-        this.props.fetchData('/api/todos');
+        const {fetchData} = this.props;
+        fetchData('/api/todos');
     }; 
 
     componentDidUpdate(prevProps) {
-        if (this.props.wasUpdated !== prevProps.wasUpdated) {
+        const {addDataFromDB, responseAfterPost, wasUpdated, fetchData} = this.props;
+        const {stateTodosReducer} = this.props.state;
 
-            if (this.props.state.stateTodosReducer._id === undefined) {
+        if (wasUpdated !== prevProps.wasUpdated) {
+            fetchData('/api/todos');
 
-                this.props.addDataFromDB(this.props.responseAfterPost);
+            if (stateTodosReducer._id === undefined) {
+                addDataFromDB(responseAfterPost);
             }
         }
-
     }
 
     downloadData = async () => {
-
-        this.props.addDataFromDB(this.props.Data);
+        const {addDataFromDB, Data} = this.props;
+        addDataFromDB(Data);
     };
 
     addTodo = (todo) => {
-
-        let newTodoList = [...this.props.stateTodos, todo];
-        this.props.addNewTodosArr(newTodoList);
+        const {stateTodos, addNewTodosArr} = this.props;
+        let newTodoList = [...stateTodos, todo];
+        addNewTodosArr(newTodoList);
 
     };
 
     deleteTodo = (id) => {
-  
-        let newTodos = this.props.stateTodos.filter(todo => todo.clientId !== id);
-        this.props.addNewTodosArr(newTodos);
+        const {stateTodos, addNewTodosArr} = this.props;
+        let newTodos = [...stateTodos];
+        newTodos = newTodos.filter(todo => todo.clientId !== id);
+        addNewTodosArr(newTodos);
         
     };
 
     changePos = (id, changeIndex1, changeIndex2) => {
-        
-        let newTodos = this.props.stateTodos.slice(); 
+        const {stateTodos} = this.props;
+        let newTodos = [...stateTodos]; 
         for (let i = 0; i < newTodos.length; i++) { 
 
             if (newTodos[i].clientId === id) {
@@ -63,32 +67,35 @@ class TodoList extends React.Component {
     upElement = (id) => {
        
         let newTodos = this.changePos(id, 0, 1);
-        this.props.addNewTodosArr(newTodos);
+        const {addNewTodosArr} = this.props;
+        addNewTodosArr(newTodos);
     }
 
     downElement = (id) => {
 
         let newTodos = this.changePos(id, 1, 0);      
-        this.props.addNewTodosArr(newTodos);
+        const {addNewTodosArr} = this.props;
+        addNewTodosArr(newTodos);
     }
 
     saveData = async () => {
-        
-        this.props.pushData('/api/todos', this.props.state.stateTodosReducer);
+        const {pushData} = this.props;
+        const {stateTodosReducer} = this.props.state
+        pushData('/api/todos', stateTodosReducer);
 
     }
 
     render() { 
- 
+        const {Data, stateTodos} = this.props;
         return ( 
             
             <div className = "wrapper"> 
-            { this.props.Data === undefined ? '' : <button onClick = {this.downloadData}>  Download todo-list </button>}
+            { Data === undefined ? '' : <button onClick = {this.downloadData}>  Download todo-list </button>}
                 <ul> 
-                    {this.props.stateTodos.map((todo) => (
+                    {stateTodos.map((todo) => (
                         <TodoItem 
-                            allTodos = {this.props.stateTodos}
-                            localTodos = {this.props.stateTodos}
+                            allTodos = {stateTodos}
+                            localTodos = {stateTodos}
                             todo = {todo}
                             key = {todo.clientId} 
                             id = {todo.clientId} 
@@ -102,7 +109,7 @@ class TodoList extends React.Component {
                 
                 <TodoForm 
                 onSubmit = {this.addTodo} 
-                todos = {this.props.stateTodos} 
+                todos = {stateTodos} 
                 />
 
                 <button onClick = {this.saveData}>  Save todo-list </button>
@@ -115,7 +122,7 @@ class TodoList extends React.Component {
 const mapStateToProps = state => {
     return {
         state,
-        Data: state.fetchTodosReducer[0], //отримує state з БД
+        Data: state.fetchTodosReducer[0], 
         responseAfterPost: state.postDataSuccess,
         stateTodos: state.stateTodosReducer.todoList,
         wasUpdated: state.updateDataReducer
@@ -125,12 +132,11 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-      fetchData: url => dispatch(todosFetchData(url)), // отримує дані з бд
-      addDataFromDB: (data) => dispatch(addDataFromDB(data)), // завантажує дані з бд в store
-      pushData: (url, data) => dispatch(todosPushDataAction(url, data)), //завантажує дані В бд
+      fetchData: url => dispatch(todosFetchData(url)), 
+      addDataFromDB: (data) => dispatch(addDataFromDB(data)), 
+      pushData: (url, data) => dispatch(todosPushDataAction(url, data)), 
       addNewTodosArr: (todos) => dispatch(addNewTodosArrAction(todos)),
-      updateTodos: (bool) => dispatch(todosUpdated(bool)) //оновлює масив в store
-      
+      updateTodos: (bool) => dispatch(todosUpdated(bool)) 
     };
   };
 

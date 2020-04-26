@@ -1,14 +1,15 @@
 import React from 'react';
 import SubList from './SubList';
 import { connect } from 'react-redux';
-import {addNewTodosArrAction} from '../actions/todos';
+import {addNewTodosArrAction} from '../redux/actions/todos';
 
 class TodoItem extends React.Component {
 
     constructor(props) {
         super(props);
+        const {todo} = this.props;
         this.state = {
-            isToggleOn: this.props.todo.subList.length > 0? true : false
+            isToggleOn: todo.subList.length > 0? true : false
         }
 
         this.handleClick = this.handleClick.bind(this);
@@ -21,33 +22,33 @@ class TodoItem extends React.Component {
         }));
 
         if (this.state.isToggleOn) {
-            this.props.todo.subList = [];
-            console.log('this.props.allTodos: ', this.props.allTodos);
-            this.props.addNewTodosArr(this.props.allTodos);
+            const {todo, addNewTodosArr, allTodos} = this.props;
+
+            todo.subList = [];
+            addNewTodosArr(allTodos);
         }
     }
 
     indexOfItem(id) {
-        return this.props.localTodos.findIndex(item => item.clientId === id);
+        const {localTodos} = this.props;
+        return localTodos.findIndex(item => item.clientId === id);
     }
 
     render() {
-
+        const {id, todo, allTodos, localTodos, upTodo, downTodo, onDelete} = this.props;
         return (
-            <li key={this.props.id}> 
-                <span> {this.props.todo.text} </span> 
+            <li key={id}> 
+                <span> {todo.text} </span> 
                 <div>
-                    <button onClick={this.props.onDelete}> Remove </button>
+                    <button onClick={onDelete}> Remove </button>
                     <button onClick={this.handleClick}> 
                         {this.state.isToggleOn ? 'Remove Sublist' : 'Add Sublist'} 
                     </button>
-                    {this.indexOfItem(this.props.id) !== 0 ? <button onClick = {this.props.upTodo}> up </button> : ''}
-                    {this.indexOfItem(this.props.id) !== this.props.localTodos.length -1 ? <button onClick = {this.props.downTodo}> down </button> : ''}   
+                    {this.indexOfItem(id) !== 0 ? <button onClick = {upTodo}> up </button> : ''}
+                    {this.indexOfItem(id) !== localTodos.length -1 ? <button onClick = {downTodo}> down </button> : ''}   
                 </div>
 
-              
-
-                {this.state.isToggleOn ? <SubList todo = {this.props.todo} allTodos = {this.props.allTodos}/> : '' }
+                {this.state.isToggleOn ? <SubList todo = {todo} allTodos = {allTodos}/> : '' }
             </li>
             )}
         }

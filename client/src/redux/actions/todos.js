@@ -1,34 +1,36 @@
+import {TODOS_FETCH_DATA_SUCCESS, ADD_NEW_TODOS, ADD_DATA, POST_DATA_SUCCESS, TODOS_WAS_UPDATED} from '../constants/types'
+
 export function todosFetchDataSuccess(todos) { 
     return {
-        type: "TODOS_FETCH_DATA_SUCCESS",
+        type: TODOS_FETCH_DATA_SUCCESS,
         todos
     }
 }
 
 export function postDataSuccess(data) { 
     return {
-        type: "POST_DATA_SUCCESS",
+        type: POST_DATA_SUCCESS,
         data
     }
 }
 
 export function todosUpdated(bool) { 
     return {
-        type: "TODOS_WAS_UPDATED",
+        type: TODOS_WAS_UPDATED,
         wasUpdated: bool
     }
 }
 
 export function addDataFromDB (data) { 
     return { 
-        type: "ADD_DATA",
+        type: ADD_DATA,
         data
     }
 }
 
 export function addNewTodosArrAction (todos) {
     return { 
-        type: "ADD_NEW_TODOS",
+        type: ADD_NEW_TODOS,
         todos
     }
 }

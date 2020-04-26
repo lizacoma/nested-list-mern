@@ -2,35 +2,36 @@ import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
 import { connect } from 'react-redux';
-import {addNewTodosArrAction} from '../actions/todos';
+import {addNewTodosArrAction} from '../redux/actions/todos';
 
 
 class SubList extends React.Component {
 
     updateHelper = (newTodos) => {
-
-        this.props.todo.subList = [...newTodos];
-        this.props.addNewTodosArr(this.props.allTodos);
+        const {todo, addNewTodosArr, allTodos} = this.props;
+        todo.subList = [...newTodos];
+        addNewTodosArr(allTodos);
     }
 
-    addTodo = (todo) => {
-      
-        this.props.todo.subList = [...this.props.todo.subList, todo];
-        this.props.addNewTodosArr(this.props.allTodos);
+    addTodo = (newTodo) => {
+        const {todo, addNewTodosArr, allTodos} = this.props;
+        todo.subList = [...todo.subList, newTodo];
+        addNewTodosArr(allTodos);
 
     };
 
     deleteTodo = (id) => {
-        
-        let newTodos = this.props.todo.subList.filter(todo => todo.clientId !== id);
+        const {todo} = this.props;
+        let newTodos = [...todo.subList];
+        newTodos = newTodos.filter(todo => todo.clientId !== id);
         this.updateHelper(newTodos);
         
     };
    
 
     changePos = (id, changeIndex1, changeIndex2) => {
-        
-        let newTodos = this.props.todo.subList.slice(); 
+        const {todo} = this.props;
+        let newTodos = todo.subList.slice(); 
         for (let i = 0; i < newTodos.length; i++) { 
 
             if (newTodos[i].clientId === id) {
@@ -62,17 +63,18 @@ class SubList extends React.Component {
 
 
     render() { 
- 
+        const {todo, allTodos} = this.props;
+        const {subList} = this.props.todo;
         return ( 
             
             <div className = "wrapper"> 
           
                 <ul> 
-                   { this.props.todo.subList.map((todo) => (
+                   { todo.subList.map((todo) => (
                         <TodoItem 
                             todo = {todo}
-                            allTodos = {this.props.allTodos}
-                            localTodos = {this.props.todo.subList}
+                            allTodos = {allTodos}
+                            localTodos = {subList}
                             key = {todo.clientId} 
                             id = {todo.clientId} 
                             
@@ -86,7 +88,7 @@ class SubList extends React.Component {
                 
                 <TodoForm 
                     onSubmit = {this.addTodo} 
-                    todos = {this.props.todo.subList} 
+                    todos = {todo.subList} 
                 />
 
                
