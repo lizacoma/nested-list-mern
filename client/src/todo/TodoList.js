@@ -20,7 +20,7 @@ class TodoList extends React.Component {
             fetchData('/api/todos');
 
             if (stateTodosReducer._id === undefined) {
-                addDataFromDB(responseAfterPost);
+                addDataFromDB({...responseAfterPost});
             }
         }
     }
@@ -80,8 +80,8 @@ class TodoList extends React.Component {
 
     saveData = async () => {
         const {pushData} = this.props;
-        const {stateTodosReducer} = this.props.state
-        pushData('/api/todos', stateTodosReducer);
+        const {stateTodosReducer} = this.props.state;
+        pushData('/api/todos', {...stateTodosReducer});
 
     }
 

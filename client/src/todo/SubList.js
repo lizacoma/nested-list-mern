@@ -10,13 +10,14 @@ class SubList extends React.Component {
     updateHelper = (newTodos) => {
         const {todo, addNewTodosArr, allTodos} = this.props;
         todo.subList = [...newTodos];
-        addNewTodosArr(allTodos);
+        addNewTodosArr([...allTodos]);
     }
 
     addTodo = (newTodo) => {
         const {todo, addNewTodosArr, allTodos} = this.props;
+
         todo.subList = [...todo.subList, newTodo];
-        addNewTodosArr(allTodos);
+        addNewTodosArr([...allTodos]);
 
     };
 
@@ -31,7 +32,7 @@ class SubList extends React.Component {
 
     changePos = (id, changeIndex1, changeIndex2) => {
         const {todo} = this.props;
-        let newTodos = todo.subList.slice(); 
+        let newTodos = [...todo.subList]; 
         for (let i = 0; i < newTodos.length; i++) { 
 
             if (newTodos[i].clientId === id) {
@@ -65,6 +66,7 @@ class SubList extends React.Component {
     render() { 
         const {todo, allTodos} = this.props;
         const {subList} = this.props.todo;
+
         return ( 
             
             <div className = "wrapper"> 

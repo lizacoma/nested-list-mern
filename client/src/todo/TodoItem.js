@@ -25,7 +25,7 @@ class TodoItem extends React.Component {
             const {todo, addNewTodosArr, allTodos} = this.props;
 
             todo.subList = [];
-            addNewTodosArr(allTodos);
+            addNewTodosArr([...allTodos]);
         }
     }
 
